@@ -51,7 +51,7 @@ And `ListVisitedProbeMessagesFlow` which takes no parameters, but returns a list
     "clientId": "launchpad-2", 
     flowName": "net.corda.solarsystem.flows.LaunchProbeFlow", 
     "parameters": { 
-      "parametersInJson": "{\"message\": \"Hello Mars\", \"target\": \"C=GB, L=FIFTH, O=MARS, OU=PLANET\", \"planetaryOnly\":\"true\"}" 
+      "parametersInJson": "{\"message\": \"Hello Mars\", \"target\": \"C=GB, L=FOURTH, O=MARS, OU=PLANET\", \"planetaryOnly\":\"true\"}" 
     } 
   } 
 }
