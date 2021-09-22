@@ -41,7 +41,7 @@ class LaunchProbeFlowTest {
 
             val pluto = getNode("pluto")
             getNode("earth").httpRpc(Credentials("earthling", "password")) {
-                val clientId = "Launch Pad 1"
+                val clientId = "client-${UUID.randomUUID()}"
                 val flowId = with(startFlow(
                     flowName = LaunchProbeFlow::class.java.name,
                     clientId = clientId,
@@ -75,7 +75,7 @@ class LaunchProbeFlowTest {
 
             val pluto = getNode("pluto")
             getNode("earth").httpRpc(Credentials("earthling", "password")) {
-                val clientId = "Launch Pad 2"
+                val clientId = "client-${UUID.randomUUID()}"
                 val flowId = with(startFlow(
                     flowName = LaunchProbeFlow::class.java.name,
                     clientId = clientId,
