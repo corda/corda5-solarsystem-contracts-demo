@@ -1,0 +1,46 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' apply false
+    id 'net.corda.cordapp.cordapp-configuration'
+}
+
+logger.quiet("SDK version: {}", JavaVersion.current())
+logger.quiet("JAVA HOME {}", System.getProperty("java.home"))
+
+subprojects {
+    apply plugin: 'kotlin'
+
+    group = 'com.r3.devrel'
+    version = '1.0-SNAPSHOT'
+
+    tasks.withType(KotlinCompile).configureEach {
+        kotlinOptions {
+            allWarningsAsErrors = true
+            jvmTarget = "11"
+            freeCompilerArgs += [
+                    "-Xjvm-default=all",
+                    // Prevent Kotlin from warning about kotlin.* classes inside the OSGi bundle.
+                    "-Xskip-runtime-version-check",
+                    "-java-parameters"
+            ]
+        }
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+        reports {
+            junitXml.required = true
+        }
+    }
+
+    pluginManager.withPlugin('org.jetbrains.kotlin.plugin.allopen') {
+        allOpen {
+            annotations(
+                'javax.persistence.Entity',
+                'javax.persistence.Embeddable',
+                'javax.persistence.MappedSuperclass'
+            )
+        }
+    }
+}

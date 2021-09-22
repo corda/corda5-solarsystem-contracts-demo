@@ -1,0 +1,71 @@
+pluginManagement {
+    settings.ext {
+        artifactoryUsername = find('cordaArtifactoryUsername') ?: System.getenv("CORDA_ARTIFACTORY_USERNAME")
+        artifactoryAPIKey = find('cordaArtifactoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_PASSWORD')
+    }
+
+    repositories {
+        maven {
+            url = "$artifactoryContextUrl/corda-os-maven"
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = artifactoryUsername
+                password = artifactoryAPIKey
+            }
+        }
+        maven {
+            url = "$artifactoryContextUrl/engineering-tools-maven"
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = artifactoryUsername
+                password = artifactoryAPIKey
+            }
+        }
+        gradlePluginPortal()
+    }
+
+    plugins {
+        id 'net.corda.plugins.cordapp-cpk' version gradlePluginsVersion
+        id 'net.corda.plugins.cordapp-cpb' version gradlePluginsVersion
+        id 'net.corda.cordapp.cordapp-configuration' version cordaAPIVersion
+        id 'org.jetbrains.kotlin.jvm' version kotlinVersion
+        id 'org.jetbrains.kotlin.plugin.allopen' version kotlinVersion
+        id 'org.jetbrains.kotlin.plugin.jpa' version kotlinVersion
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        maven {
+            url = "$artifactoryContextUrl/corda-os-maven"
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = artifactoryUsername
+                password = artifactoryAPIKey
+            }
+        }
+        maven {
+            url = "$artifactoryContextUrl/corda-dependencies"
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = artifactoryUsername
+                password = artifactoryAPIKey
+            }
+        }
+        mavenLocal()
+    }
+}
+
+rootProject.name = 'corda5-solar-system-contracts-demo'
+
+include('contracts')
+include('workflows')

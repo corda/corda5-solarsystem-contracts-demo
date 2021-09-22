@@ -1,0 +1,28 @@
+plugins {
+    id 'net.corda.plugins.cordapp-cpk'
+    id 'org.jetbrains.kotlin.plugin.allopen'
+    id 'org.jetbrains.kotlin.plugin.jpa'
+}
+
+cordapp {
+    targetPlatformVersion 1000
+    minimumPlatformVersion 999
+    contract {
+        name "Corda5 Solar System Contracts Demo - Contracts"
+        versionId 1
+        vendor "R3"
+    }
+}
+
+dependencies {
+    implementation "net.corda.kotlin:kotlin-stdlib-jdk8-osgi:$kotlinVersion"
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    cordaProvided "net.corda:corda-persistence:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-application:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-ledger:$cordaAPIVersion"
+}
+
+tasks.named('jar', Jar) {
+    archiveBaseName = 'corda5-solar-system-contracts-demo-contracts'
+}

@@ -1,0 +1,30 @@
+tag: 5.0.0.0-devpreview
+
+nodes:
+  earth:
+    debug: true
+    x500: "C=IE, L=THIRD, O=EARTH, OU=PLANET"
+    users:
+      user1:
+        password: test
+      earthling:
+        password: password
+        permissions: [ "ALL" ]
+  mars:
+    x500: "C=GB, L=FOURTH, O=MARS, OU=PLANET"
+    users:
+      user1:
+        password: test
+      martian:
+        password: password
+        permissions: [ "ALL" ]
+  pluto:
+    x500: "C=US, L=NINTH, O=PLUTO, OU=DWARF_PLANET"
+    users:
+      user1:
+        password: test
+      plutonian:
+        password: password
+        permissions: [ "ALL" ]
+  notary:
+    notary: true
