@@ -63,3 +63,7 @@ And `ListVisitedProbeMessagesFlow` which takes no parameters, but returns a list
 1. Add a node `corda-node-cli endpoint add -n earth --basic-auth -u earthling -P password https://localhost:<port>/api/v1/`
 2. set the node as default `corda-node-cli endpoint set -e earth`
 3. launch a flow `corda-node-cli flow start -n LaunchProbeFlow -A message="hello" -A target="C=US, L=NINTH, O=PLUTO, OU=DWARF_PLANET" -A planetaryOnly=true -u earthling -P password`
+
+### Web UI
+
+Please see the Web-UI directory for details on installing and luanching a web interface
