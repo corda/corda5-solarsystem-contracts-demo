@@ -1,0 +1,93 @@
+.options-side-drawer {
+  grid-area: options;
+  align-self: stretch;
+
+  padding: 20px;
+
+  .options {
+    padding: 0 20px;
+    color: white;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+
+    border-radius: 5px;
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0.85;
+
+    .member-information {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin: 0 0 10px 0;
+
+      p {
+        margin: 0;
+        font-size: 0.7rem;
+        line-height: 1rem;
+      }
+      h2 {
+        margin: 0;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+      }
+    }
+
+    .flow-information {
+      margin: 20px 0;
+      background-color: pink;
+      padding: 0.3rem;
+    }
+
+    button {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    button:hover:enabled {
+      color: #000000;
+      background-color: white;
+      transition: background-color 0.1s ease-in-out;
+    }
+
+    button:active:enabled {
+      color: #000000;
+      background-color: white;
+    }
+
+    button:disabled {
+      margin: 10px 0;
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      color: rgb(111, 101, 117);
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .options-button {
+      margin: 10px 0;
+      width: 100%;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+    }
+
+    .button-selected {
+      color: #000000;
+      background-color: #bcbac5;
+    }
+  }
+}

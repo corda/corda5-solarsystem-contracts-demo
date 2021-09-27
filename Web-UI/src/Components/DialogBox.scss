@@ -1,0 +1,150 @@
+.dialog-box {
+  grid-area: dialog;
+  align-self: end;
+  padding: 20px;
+  .dialog {
+    color: white;
+    width: 100%;
+    padding: 20px;
+    border-radius: 30px 0;
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    opacity: 0.9;
+
+    h2 {
+      margin: 0.5rem 0;
+    }
+    p {
+      margin: 0.5rem 0;
+      font-weight: normal;
+      overflow-wrap: break-word;
+    }
+
+    textarea {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(1px);
+      border-radius: 5px;
+      margin-top: 0.2rem;
+      height: 100px;
+      width: 99%;
+      @media (max-width: 1540px) {
+        width: 900px;
+      }
+      @media (max-width: 1366px) {
+        width: 700px;
+      }
+    }
+
+    .checkbox {
+      margin-top: 10px;
+    }
+
+    input[type="checkbox"] {
+      /* changing "blue" browser chrome to purple */
+      filter: hue-rotate(25deg);
+    }
+
+    label {
+      margin-left: 3px;
+    }
+
+    .copy {
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
+      padding: 2px;
+      margin-left: 5px;
+    }
+
+    .submit-button {
+      display: block;
+      margin-top: 15px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      color: #02000a;
+      text-transform: uppercase;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+    }
+  }
+}
+
+.input-box {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 0.2rem;
+  margin-right: 10px;
+  margin-bottom: 2px;
+  height: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.resource-dropdown {
+  height: 35px;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.trading-option {
+  display: flex;
+  grid-gap: 50px;
+  margin: 20px 0;
+  align-items: center;
+  fieldset {
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+  }
+}
+
+.vault-messages-output {
+  overflow-y: auto;
+  height: 500px;
+}
+
+.vault-messages {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin: 0 10px 10px 0;
+
+  p {
+    margin: 0;
+    font-size: 0.7rem;
+    line-height: 1rem;
+  }
+}
+
+.flow-check-input {
+  margin-bottom: 0.2rem;
+  .input-box {
+    width: 300px;
+  }
+}
+
+.flow-check-button {
+  margin-top: 15px;
+  padding: 7px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #02000a;
+  text-transform: uppercase;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
