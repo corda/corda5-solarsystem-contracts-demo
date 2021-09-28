@@ -1,12 +1,6 @@
 pluginManagement {
 
     repositories {
-        maven {
-            url = "$artifactoryContextUrl/corda-os-maven"
-        }
-        maven {
-            url = "$artifactoryContextUrl/engineering-tools-maven"
-        }
         gradlePluginPortal()
     }
 
@@ -23,9 +17,6 @@ pluginManagement {
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
-        maven {
-            url = "$artifactoryContextUrl/corda-os-maven"
-        }
         mavenLocal()
     }
 }
