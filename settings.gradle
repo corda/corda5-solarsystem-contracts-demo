@@ -1,29 +1,11 @@
 pluginManagement {
-    settings.ext {
-        artifactoryUsername = find('cordaArtifactoryUsername') ?: System.getenv("CORDA_ARTIFACTORY_USERNAME")
-        artifactoryAPIKey = find('cordaArtifactoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_PASSWORD')
-    }
 
     repositories {
         maven {
             url = "$artifactoryContextUrl/corda-os-maven"
-            authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                username = artifactoryUsername
-                password = artifactoryAPIKey
-            }
         }
         maven {
             url = "$artifactoryContextUrl/engineering-tools-maven"
-            authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                username = artifactoryUsername
-                password = artifactoryAPIKey
-            }
         }
         gradlePluginPortal()
     }
@@ -43,23 +25,6 @@ dependencyResolutionManagement {
         mavenCentral()
         maven {
             url = "$artifactoryContextUrl/corda-os-maven"
-            authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                username = artifactoryUsername
-                password = artifactoryAPIKey
-            }
-        }
-        maven {
-            url = "$artifactoryContextUrl/corda-dependencies"
-            authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                username = artifactoryUsername
-                password = artifactoryAPIKey
-            }
         }
         mavenLocal()
     }
