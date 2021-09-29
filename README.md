@@ -26,10 +26,11 @@ And `ListVisitedProbeMessagesFlow` which takes no parameters, but returns a list
 1. Navigate to the app directory
 2. Build the app with `gradlew build`
 3. Build the Cordapp with the cordapp-builder CLI util `cordapp-builder create --cpk contracts\build\libs\<CPK FILE NAME> --cpk workflows\build\libs\<CPK FILE NAME> -o solar-system.cpb`
-4. Build the network deployment dockerfile using corda-cli `corda-cli network deploy -n solar-system -f solar-system.yaml > docker-compose.yaml`
-5. Deploy the network using docker-compose `docker-compose -f docker-compose.yaml up -d`
-6. When deployed check the status with corda-cli `corda-cli network status -n solar-system` note the mapped web ports for Http RPC
-7. Install the application on the network using corda-cli `corda-cli package install -n solar-system solar-system.cpb`
+4. Configure the network with `corda-cli network config docker-compose solar-system`
+5. Build the network deployment dockerfile using corda-cli `corda-cli network deploy -n solar-system -f solar-system.yaml > docker-compose.yaml`
+6. Deploy the network using docker-compose `docker-compose -f docker-compose.yaml up -d`
+7. When deployed check the status with corda-cli `corda-cli network status -n solar-system` note the mapped web ports for Http RPC
+8. Install the application on the network using corda-cli `corda-cli package install -n solar-system solar-system.cpb`
 
 ### Testing VIA Swagger
 - Using the port noted from the network status visit `https://localhost:<port>/api/v1/swagger`
