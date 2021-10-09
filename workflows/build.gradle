@@ -92,3 +92,8 @@ dependencies {
 tasks.named('jar', Jar) {
     archiveBaseName = 'corda5-solar-system-contracts-demo-workflows'
 }
+
+cpb {
+    archiveBaseName = 'corda5-solar-system'
+    destinationDir = file("$rootDir/build/")
+}
