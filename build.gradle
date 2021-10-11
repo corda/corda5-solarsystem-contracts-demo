@@ -27,10 +27,24 @@ subprojects {
         }
     }
 
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    }
+
     tasks.withType(Test).configureEach {
         useJUnitPlatform()
         reports {
             junitXml.required = true
+        }
+    }
+
+    pluginManager.withPlugin('org.jetbrains.kotlin.plugin.jpa') {
+        noArg {
+            annotations(
+                    'javax.persistence.Entity',
+                    'javax.persistence.Embeddable',
+                    'javax.persistence.MappedSuperclass'
+            )
         }
     }
 

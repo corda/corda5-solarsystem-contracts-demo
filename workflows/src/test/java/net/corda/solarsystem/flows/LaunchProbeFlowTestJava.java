@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +47,7 @@ public class LaunchProbeFlowTestJava {
                     .when(flowMockHelper.getFlow().getFlowEngine())
                     .subFlow(Mockito.any(FinalityFlow.class));
 
-            List<ProbeStateJava> outputs = Arrays.asList(new ProbeStateJava("Hey Mars", true, flowMockHelper.getOurIdentity(), flowMockHelper.getOtherSide()));
+            List<ProbeStateJava> outputs = List.of(new ProbeStateJava("Hey Mars", true, flowMockHelper.getOurIdentity(), flowMockHelper.getOtherSide()));
             Mockito.doReturn(flowMockHelper.getWireTransactionMock())
                     .when(flowMockHelper.getSignedTransactionMock())
                     .getTx();

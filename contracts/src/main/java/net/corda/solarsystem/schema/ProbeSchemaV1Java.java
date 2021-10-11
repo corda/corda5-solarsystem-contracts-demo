@@ -1,5 +1,6 @@
 package net.corda.solarsystem.schema;
 
+import net.corda.v5.ledger.schemas.PersistentState;
 import net.corda.v5.persistence.MappedSchema;
 import net.corda.v5.persistence.UUIDConverter;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +33,7 @@ public class ProbeSchemaV1Java extends MappedSchema {
             query = "FROM net.corda.solarsystem.schema.ProbeSchemaV1Java$PersistentProbeJava"
     )
     @Table(name = "probe_state_java")
-    class PersistentProbeJava {
+    class PersistentProbeJava extends PersistentState {
         @Column(name = "message")
         private String message;
         @Column(name = "planetary_only")

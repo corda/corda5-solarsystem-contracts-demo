@@ -4,8 +4,6 @@ import net.corda.solarsystem.contracts.ProbeContractJava;
 import net.corda.solarsystem.states.ProbeStateJava;
 import net.corda.systemflows.CollectSignaturesFlow;
 import net.corda.systemflows.FinalityFlow;
-import net.corda.systemflows.ReceiveFinalityFlow;
-import net.corda.systemflows.SignTransactionFlow;
 import net.corda.v5.application.flows.*;
 import net.corda.v5.application.flows.flowservices.FlowEngine;
 import net.corda.v5.application.flows.flowservices.FlowIdentity;
@@ -17,7 +15,6 @@ import net.corda.v5.application.injection.CordaInject;
 import net.corda.v5.application.services.IdentityService;
 import net.corda.v5.application.services.json.JsonMarshallingService;
 import net.corda.v5.base.annotations.Suspendable;
-import net.corda.v5.base.annotations.VisibleForTesting;
 import net.corda.v5.ledger.UniqueIdentifier;
 import net.corda.v5.ledger.contracts.Command;
 import net.corda.v5.ledger.services.NotaryLookupService;
@@ -26,7 +23,6 @@ import net.corda.v5.ledger.transactions.SignedTransaction;
 import net.corda.v5.ledger.transactions.SignedTransactionDigest;
 import net.corda.v5.ledger.transactions.TransactionBuilder;
 import net.corda.v5.ledger.transactions.TransactionBuilderFactory;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -92,7 +88,7 @@ public class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
             target = CordaX500Name.parse(parametersMap.get("target"));
 
         Party recipientParty = identityService.partyFromName(target);
-        if (recipientParty == null) throw new NoSuchElementException("No party found for X500 name $target");
+        if (recipientParty == null) throw new NoSuchElementException("No party found for X500 name " +target);
         Party notary = notaryLookup.getNotaryIdentities().get(0);
 
         // Stage 1.
@@ -120,14 +116,14 @@ public class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
         SignedTransaction fullySignedTx = flowEngine.subFlow(
                 new CollectSignaturesFlow(
                         partSignedTx,
-                        Arrays.asList(otherPartySession)
+                        List.of(otherPartySession)
                 )
         );
 
         // Stage 5.
         // Notarise and record the transaction in both parties' vaults.
         SignedTransaction notarisedTx = flowEngine.subFlow(
-                new FinalityFlow(fullySignedTx, Arrays.asList(otherPartySession))
+                new FinalityFlow(fullySignedTx, List.of(otherPartySession))
         );
 
         //Step 6.
@@ -153,33 +149,3 @@ public class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
     }
 }
 
-@InitiatedBy(LaunchProbeFlowJava.class)
-class LaunchProbeFlowAcceptorJava implements Flow<SignedTransaction> {
-
-    private final FlowSession counterPartySession;
-
-    @CordaInject
-    private FlowEngine flowEngine;
-
-    LaunchProbeFlowAcceptorJava(FlowSession counterPartySession) {
-        this.counterPartySession = counterPartySession;
-    }
-
-    @Override
-    @Suspendable
-    public SignedTransaction call() {
-        SignedTransaction signedTransaction = flowEngine.subFlow(new MySignTransactionFlow(counterPartySession));
-
-        return flowEngine.subFlow(new ReceiveFinalityFlow(counterPartySession, signedTransaction.getId()));
-    }
-
-    public static class MySignTransactionFlow extends SignTransactionFlow {
-        MySignTransactionFlow(FlowSession counterpartySession) {
-            super(counterpartySession);
-        }
-
-        @Override
-        protected void checkTransaction(@NotNull SignedTransaction stx) {
-        }
-    }
-}

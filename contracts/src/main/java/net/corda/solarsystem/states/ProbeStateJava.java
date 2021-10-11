@@ -1,32 +1,42 @@
 package net.corda.solarsystem.states;
 
 import com.google.gson.Gson;
+import net.corda.solarsystem.contracts.ProbeContractJava;
 import net.corda.solarsystem.schema.ProbeSchemaV1;
 import net.corda.solarsystem.schema.ProbeSchemaV1Java;
 import net.corda.v5.application.identity.AbstractParty;
 import net.corda.v5.application.identity.Party;
 import net.corda.v5.application.utilities.JsonRepresentable;
+import net.corda.v5.base.annotations.CordaSerializable;
 import net.corda.v5.ledger.UniqueIdentifier;
+import net.corda.v5.ledger.contracts.BelongsToContract;
 import net.corda.v5.ledger.contracts.LinearState;
 import net.corda.v5.ledger.schemas.PersistentState;
 import net.corda.v5.ledger.schemas.QueryableState;
 import net.corda.v5.persistence.MappedSchema;
+import net.corda.v5.serialization.annotations.ConstructorForDeserialization;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 
+@CordaSerializable
+@BelongsToContract(ProbeContractJava.class)
 public class ProbeStateJava implements LinearState, QueryableState, JsonRepresentable {
     // state data
-    private final String message;
-    private final Boolean planetaryOnly;
+    private String message;
+    private Boolean planetaryOnly;
 
     // parties involved
-    private final Party launcher;
-    private final Party target;
+    private Party launcher;
+    private Party target;
 
-    private final UniqueIdentifier linearId;
+    private UniqueIdentifier linearId;
 
+    public ProbeStateJava() {
+    }
+
+    @ConstructorForDeserialization
     public ProbeStateJava(String message, Boolean planetaryOnly, Party launcher, Party target, UniqueIdentifier linearId) {
         this.message = message;
         this.planetaryOnly = planetaryOnly;
