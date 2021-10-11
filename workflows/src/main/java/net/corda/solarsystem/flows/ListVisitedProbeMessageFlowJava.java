@@ -1,6 +1,6 @@
 package net.corda.solarsystem.flows;
 
-import net.corda.solarsystem.states.ProbeState;
+import net.corda.solarsystem.states.ProbeStateJava;
 import net.corda.v5.application.flows.Flow;
 import net.corda.v5.application.flows.InitiatingFlow;
 import net.corda.v5.application.flows.StartableByRPC;
@@ -36,27 +36,24 @@ public class ListVisitedProbeMessageFlowJava implements Flow<List<String>> {
     @Override
     @Suspendable
     public List<String> call() {
-
-
         Party us = flowIdentity.getOurIdentity();
-        Cursor<ProbeState> cursor = persistenceService.query(
-                "ProbeSchemaV1.PersistentProbe.FindAll",
+        Cursor<ProbeStateJava> cursor = persistenceService.query(
+                "ProbeSchemaV1Java.PersistentProbeJava.FindAll",
                 Collections.emptyMap(),
                 IdentityContractStatePostProcessor.POST_PROCESSOR_NAME
         );
 
-        ArrayList<ProbeState> accumulator = new ArrayList<>();
-        Cursor.PollResult<ProbeState> poll;
+        ArrayList<ProbeStateJava> accumulator = new ArrayList<>();
+        Cursor.PollResult<ProbeStateJava> poll;
         do {
             poll = cursor.poll(100, Duration.of(10, ChronoUnit.SECONDS));
             accumulator.addAll(poll.getValues());
         } while (!poll.isLastResult());
 
-        return accumulator.stream().filter(
-                message -> message.getLauncher() != us
-        ).map(
-                message -> jsonMarshallingService.formatJson("From: " + message.getLauncher().getName().toString() + " - Message: " + message.getMessage().toString())
-        ).collect(Collectors.toList());
+        return accumulator.stream()
+                .filter(message -> message.getLauncher() != us)
+                .map(message -> jsonMarshallingService.formatJson("From: " + message.getLauncher().getName() + " - Message: " + message.getMessage()))
+                .collect(Collectors.toList());
 
     }
 }

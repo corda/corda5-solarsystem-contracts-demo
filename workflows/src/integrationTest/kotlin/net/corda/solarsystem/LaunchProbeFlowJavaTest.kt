@@ -1,28 +1,32 @@
 package net.corda.solarsystem
 
 import com.google.gson.GsonBuilder
+import java.time.Duration
+import java.util.UUID
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
 import kong.unirest.Unirest
 import kong.unirest.json.JSONObject
-import net.corda.solarsystem.flows.LaunchProbeFlow
-import net.corda.test.dev.network.*
+import net.corda.solarsystem.flows.LaunchProbeFlowJava
+import net.corda.test.dev.network.Credentials
+import net.corda.test.dev.network.TestNetwork
+import net.corda.test.dev.network.withFlow
+import net.corda.test.dev.network.x500Name
 import org.apache.http.HttpStatus
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import java.time.Duration
-import java.util.*
 
-class LaunchProbeFlowTest {
+class LaunchProbeFlowJavaTest {
+
     companion object {
         @JvmStatic
         @BeforeAll
         fun setup() {
             TestNetwork.forNetwork("solar-system").verify {
-                hasNode("earth").withFlow<LaunchProbeFlow>()
-                hasNode("mars").withFlow<LaunchProbeFlow>()
-                hasNode("pluto").withFlow<LaunchProbeFlow>()
+                hasNode("earth").withFlow<LaunchProbeFlowJava>()
+                hasNode("mars").withFlow<LaunchProbeFlowJava>()
+                hasNode("pluto").withFlow<LaunchProbeFlowJava>()
             }
         }
     }
@@ -36,7 +40,7 @@ class LaunchProbeFlowTest {
             getNode("earth").httpRpc(Credentials("earthling", "password")) {
                 val clientId = "client-${UUID.randomUUID()}"
                 val flowId = with(startFlow(
-                    flowName = LaunchProbeFlow::class.java.name,
+                    flowName = LaunchProbeFlowJava::class.java.name,
                     clientId = clientId,
                     parametersInJson = launchProbeFlowParams(
                         message = "Hello pluto",
@@ -44,17 +48,17 @@ class LaunchProbeFlowTest {
                         planetaryOnly = false
                     )
                 )){
-                    assertThat(status).isEqualTo(HttpStatus.SC_OK)
-                    assertThat(body.`object`.get("clientId")).isEqualTo(clientId)
+                    Assertions.assertThat(status).isEqualTo(HttpStatus.SC_OK)
+                    Assertions.assertThat(body.`object`.get("clientId")).isEqualTo(clientId)
                     val flowId = body.`object`.get("flowId") as JSONObject
-                    assertThat(flowId).isNotNull
+                    Assertions.assertThat(flowId).isNotNull
                     flowId.get("uuid") as String
                 }
 
                 eventually {
                     with(retrieveOutcome(flowId)) {
-                        assertThat(status).isEqualTo(HttpStatus.SC_OK)
-                        assertThat(body.`object`.get("status")).isEqualTo("COMPLETED")
+                        Assertions.assertThat(status).isEqualTo(HttpStatus.SC_OK)
+                        Assertions.assertThat(body.`object`.get("status")).isEqualTo("COMPLETED")
                     }
                 }
             }
@@ -70,7 +74,7 @@ class LaunchProbeFlowTest {
             getNode("earth").httpRpc(Credentials("earthling", "password")) {
                 val clientId = "client-${UUID.randomUUID()}"
                 val flowId = with(startFlow(
-                    flowName = LaunchProbeFlow::class.java.name,
+                    flowName = LaunchProbeFlowJava::class.java.name,
                     clientId = clientId,
                     parametersInJson = launchProbeFlowParams(
                         message = "Hello pluto",
@@ -78,17 +82,17 @@ class LaunchProbeFlowTest {
                         planetaryOnly = true
                     )
                 )){
-                    assertThat(status).isEqualTo(HttpStatus.SC_OK)
-                    assertThat(body.`object`.get("clientId")).isEqualTo(clientId)
+                    Assertions.assertThat(status).isEqualTo(HttpStatus.SC_OK)
+                    Assertions.assertThat(body.`object`.get("clientId")).isEqualTo(clientId)
                     val flowId = body.`object`.get("flowId") as JSONObject
-                    assertThat(flowId).isNotNull
+                    Assertions.assertThat(flowId).isNotNull
                     flowId.get("uuid") as String
                 }
 
                 eventually {
                     with(retrieveOutcome(flowId)) {
-                        assertThat(status).isEqualTo(HttpStatus.SC_OK)
-                        assertThat(body.`object`.get("status")).isEqualTo("FAILED")
+                        Assertions.assertThat(status).isEqualTo(HttpStatus.SC_OK)
+                        Assertions.assertThat(body.`object`.get("status")).isEqualTo("FAILED")
                     }
                 }
             }

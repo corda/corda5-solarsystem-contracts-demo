@@ -1,7 +1,7 @@
 package net.corda.solarsystem.flows;
 
-import net.corda.solarsystem.contracts.ProbeContract;
-import net.corda.solarsystem.states.ProbeState;
+import net.corda.solarsystem.contracts.ProbeContractJava;
+import net.corda.solarsystem.states.ProbeStateJava;
 import net.corda.systemflows.CollectSignaturesFlow;
 import net.corda.systemflows.FinalityFlow;
 import net.corda.systemflows.ReceiveFinalityFlow;
@@ -17,6 +17,7 @@ import net.corda.v5.application.injection.CordaInject;
 import net.corda.v5.application.services.IdentityService;
 import net.corda.v5.application.services.json.JsonMarshallingService;
 import net.corda.v5.base.annotations.Suspendable;
+import net.corda.v5.base.annotations.VisibleForTesting;
 import net.corda.v5.ledger.UniqueIdentifier;
 import net.corda.v5.ledger.contracts.Command;
 import net.corda.v5.ledger.services.NotaryLookupService;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 
 @InitiatingFlow
 @StartableByRPC
-class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
+public class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
 
     private final RpcStartFlowRequestParameters params;
 
@@ -83,26 +84,25 @@ class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
         if (!parametersMap.containsKey("planetaryOnly"))
             throw new BadRpcStartFlowRequestException("Parameter \"planetaryOnly\" missing.");
         else
-            planetaryOnly = Boolean.getBoolean(parametersMap.get("planetaryOnly"));
+            planetaryOnly = Boolean.parseBoolean(parametersMap.get("planetaryOnly"));
 
         if (!parametersMap.containsKey("target"))
             throw new BadRpcStartFlowRequestException("Parameter \"target\" missing.");
         else
             target = CordaX500Name.parse(parametersMap.get("target"));
 
-        Party sender = flowIdentity.getOurIdentity();
         Party recipientParty = identityService.partyFromName(target);
         if (recipientParty == null) throw new NoSuchElementException("No party found for X500 name $target");
         Party notary = notaryLookup.getNotaryIdentities().get(0);
 
         // Stage 1.
         // Generate an unsigned transaction.
-        ProbeState probeState = new ProbeState(message, planetaryOnly, flowIdentity.getOurIdentity(), recipientParty, new UniqueIdentifier());
-        Command txCommand = new Command(new ProbeContract.Commands.Launch(), probeState.getParticipants().stream().map(AbstractParty::getOwningKey).collect(Collectors.toList()));
+        ProbeStateJava probeState = new ProbeStateJava(message, planetaryOnly, flowIdentity.getOurIdentity(), recipientParty, new UniqueIdentifier());
+        Command txCommand = new Command(new ProbeContractJava.Commands.Launch(), probeState.getParticipants().stream().map(AbstractParty::getOwningKey).collect(Collectors.toList()));
 
         TransactionBuilder txBuilder = transactionBuilderFactory.create()
                 .setNotary(notary)
-                .addOutputState(probeState, ProbeContract.getID())
+                .addOutputState(probeState, ProbeContractJava.ID)
                 .addCommand(txCommand);
 
         // Stage 2.
@@ -138,6 +138,18 @@ class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
                 notarisedTx.getSigs()
         );
 
+    }
+
+    public FlowEngine getFlowEngine() {
+        return flowEngine;
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public JsonMarshallingService getJsonMarshallingService() {
+        return jsonMarshallingService;
     }
 }
 
