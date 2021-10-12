@@ -36,7 +36,7 @@ const LaunchProbeFlow = async (probeMessage: string, targetPlanet: string, plane
         const response = await axios.post(`flowstarter/startflow`, {
           rpcStartFlowRequest: {
           clientId: launchPadNumber,
-          flowName: "net.corda.solarsystem.flows.LaunchProbeFlow",
+          flowName: "net.corda.solarsystem.flows.LaunchProbeFlowJava",
           parameters: {
             parametersInJson: `{"message": "${probeMessage}", "target": "${targetPlanet}", "planetaryOnly":"${planetaryOnly}"}`,
           },
@@ -62,7 +62,7 @@ const ListVisitedProbeMessagesFlow = async () => {
         const response = await axios.post(`flowstarter/startflow`, {
           rpcStartFlowRequest: {
           clientId: launchPadNumber,
-          flowName: "net.corda.solarsystem.flows.ListVisitedProbeMessagesFlow",
+          flowName: "net.corda.solarsystem.flows.ListVisitedProbeMessageFlowJava",
           parameters: {
             parametersInJson: ``,
           },
