@@ -18,7 +18,7 @@ import net.corda.v5.ledger.services.vault.IdentityContractStatePostProcessor;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,9 +42,13 @@ public class ListVisitedProbeMessageFlowJava implements Flow<List<String>> {
     @Suspendable
     public List<String> call() {
         Party us = flowIdentity.getOurIdentity();
+
+        HashMap<String, String> namedParameters = new HashMap<>();
+        namedParameters.put("launcherName", us.getName().toString());
+
         Cursor<ProbeStateJava> cursor = persistenceService.query(
-                "ProbeSchemaV1Java.PersistentProbeJava.FindAll",
-                Collections.emptyMap(),
+                "ProbeSchemaV1Java.PersistentProbeJava.findByLauncherName",
+                namedParameters,
                 IdentityContractStatePostProcessor.POST_PROCESSOR_NAME
         );
 
@@ -56,9 +60,7 @@ public class ListVisitedProbeMessageFlowJava implements Flow<List<String>> {
         } while (!poll.isLastResult());
 
         return accumulator.stream()
-                .filter(message -> message.getLauncher() != us)
                 .map(message -> jsonMarshallingService.formatJson("From: " + message.getLauncher().getName() + " - Message: " + message.getMessage()))
                 .collect(Collectors.toList());
-
     }
 }
