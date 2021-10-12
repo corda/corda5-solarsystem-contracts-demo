@@ -2,7 +2,6 @@ package net.corda.solarsystem.states;
 
 import com.google.gson.Gson;
 import net.corda.solarsystem.contracts.ProbeContractJava;
-import net.corda.solarsystem.schema.ProbeSchemaV1;
 import net.corda.solarsystem.schema.ProbeSchemaV1Java;
 import net.corda.v5.application.identity.AbstractParty;
 import net.corda.v5.application.identity.Party;
@@ -85,7 +84,7 @@ public class ProbeStateJava implements LinearState, QueryableState, JsonRepresen
     @Override
     public PersistentState generateMappedObject(@NotNull MappedSchema schema) {
         if (schema instanceof ProbeSchemaV1Java) {
-            return new ProbeSchemaV1.PersistentProbe(
+            return new ProbeSchemaV1Java.PersistentProbeJava(
                     this.message,
                     this.planetaryOnly,
                     this.launcher.getName().toString(),

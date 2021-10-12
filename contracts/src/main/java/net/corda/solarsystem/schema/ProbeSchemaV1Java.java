@@ -33,7 +33,7 @@ public class ProbeSchemaV1Java extends MappedSchema {
             query = "FROM net.corda.solarsystem.schema.ProbeSchemaV1Java$PersistentProbeJava"
     )
     @Table(name = "probe_state_java")
-    class PersistentProbeJava extends PersistentState {
+    public static class PersistentProbeJava extends PersistentState {
         @Column(name = "message")
         private String message;
         @Column(name = "planetary_only")
