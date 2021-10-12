@@ -3,6 +3,8 @@ package net.corda.solarsystem.flows;
 import net.corda.solarsystem.states.ProbeStateJava;
 import net.corda.v5.application.flows.Flow;
 import net.corda.v5.application.flows.InitiatingFlow;
+import net.corda.v5.application.flows.JsonConstructor;
+import net.corda.v5.application.flows.RpcStartFlowRequestParameters;
 import net.corda.v5.application.flows.StartableByRPC;
 import net.corda.v5.application.flows.flowservices.FlowIdentity;
 import net.corda.v5.application.identity.Party;
@@ -23,6 +25,9 @@ import java.util.stream.Collectors;
 @InitiatingFlow
 @StartableByRPC
 public class ListVisitedProbeMessageFlowJava implements Flow<List<String>> {
+
+    @JsonConstructor
+    public ListVisitedProbeMessageFlowJava(RpcStartFlowRequestParameters params) {}
 
     @CordaInject
     private PersistenceService persistenceService;
