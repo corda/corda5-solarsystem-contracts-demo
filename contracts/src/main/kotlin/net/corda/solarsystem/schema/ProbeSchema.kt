@@ -28,7 +28,7 @@ object ProbeSchemaV1 : MappedSchema(
         name = "ProbeSchemaV1.PersistentProbe.FindAll",
         query = "FROM net.corda.solarsystem.schema.ProbeSchemaV1\$PersistentProbe"
     )
-    @Table(name = "probe_states")
+    @Table(name = "probe_state")
     class PersistentProbe(
         @Column(name = "message")
         var message: String,
