@@ -45,6 +45,8 @@ class LaunchProbeFlow @JsonConstructor constructor(private val params: RpcStartF
     @CordaInject
     lateinit var flowMessaging: FlowMessaging
     @CordaInject
+    lateinit var transactionService: TransactionService
+    @CordaInject
     lateinit var transactionBuilderFactory: TransactionBuilderFactory
     @CordaInject
     lateinit var identityService: IdentityService

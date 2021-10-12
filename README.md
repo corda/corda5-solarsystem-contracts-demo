@@ -5,12 +5,12 @@ A simple Corda 5 Cordapp that allows you to launch probes between planets with l
 
 ## Flows
 
-There are two flows `LaunchProbeFlow`/`LaunchProbeFlowJava` which take two parameters:
+There are two flows `LaunchProbeFlow` which takes two parameters:
 
 - `message` (String) - A message to send with the probe
 - `target`  (x500 String) - The X500 name of the probes target
 
-And `ListVisitedProbeMessagesFlow` which takes no parameters, but returns a list of recieved messages.
+And `ListVisitedProbeMessagesFlow` which takes no parameters, but returns a list of recieved messages
 
 
 ## Deploying and Testing
@@ -36,11 +36,11 @@ And `ListVisitedProbeMessagesFlow` which takes no parameters, but returns a list
 - Using the port noted from the network status visit `https://localhost:<port>/api/v1/swagger`
 - Login using the button on the top right usernames and passwords are as follows:
 
-  | Planet | Username  | Password |
-  |--------|-----------|----------|
-  | Earth  | earthling | password |
-  | Mars   | martian   | password |
-  | Pluto  | plutonian | password |
+  | Planet | Username | Password |
+  |--|--|--|
+  |Earth | earthling | password |
+  | Mars | martian | password     
+  | Pluto | plutonian | password|
 
 - Launch the `LaunchProbeFlow` via the Start Flow api by passing something similar
 
