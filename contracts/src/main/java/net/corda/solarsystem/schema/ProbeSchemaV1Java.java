@@ -29,8 +29,8 @@ public class ProbeSchemaV1Java extends MappedSchema {
 
     @Entity
     @NamedQuery(
-            name = "ProbeSchemaV1Java.PersistentProbeJava.findByLauncherName",
-            query = "FROM net.corda.solarsystem.schema.ProbeSchemaV1Java$PersistentProbeJava it WHERE it.launcherName = :launcherName"
+            name = "ProbeSchemaV1Java.PersistentProbeJava.findByLauncherNameNot",
+            query = "FROM net.corda.solarsystem.schema.ProbeSchemaV1Java$PersistentProbeJava it WHERE it.launcherName <> :launcherName"
     )
     @Table(name = "probe_state_java")
     public static class PersistentProbeJava extends PersistentState {

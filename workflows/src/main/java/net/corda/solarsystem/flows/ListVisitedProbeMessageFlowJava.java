@@ -47,7 +47,7 @@ public class ListVisitedProbeMessageFlowJava implements Flow<List<String>> {
         namedParameters.put("launcherName", us.getName().toString());
 
         Cursor<ProbeStateJava> cursor = persistenceService.query(
-                "ProbeSchemaV1Java.PersistentProbeJava.findByLauncherName",
+                "ProbeSchemaV1Java.PersistentProbeJava.findByLauncherNameNot",
                 namedParameters,
                 IdentityContractStatePostProcessor.POST_PROCESSOR_NAME
         );
