@@ -19,7 +19,9 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @InitiatingFlow
@@ -43,7 +45,7 @@ public class ListVisitedProbeMessageFlowJava implements Flow<List<String>> {
     public List<String> call() {
         Party us = flowIdentity.getOurIdentity();
 
-        HashMap<String, String> namedParameters = new HashMap<>();
+        Map<String, String> namedParameters = new LinkedHashMap<>();
         namedParameters.put("launcherName", us.getName().toString());
 
         Cursor<ProbeStateJava> cursor = persistenceService.query(
