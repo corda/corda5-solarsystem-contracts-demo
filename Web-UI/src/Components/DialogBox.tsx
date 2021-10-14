@@ -53,8 +53,6 @@ const DialogBox: React.FC<DialogProps> = ({
     setIsCopied(true);
   };
 
-  console.log(selectedPlanet);
-
   const getFlowOutcome = async (flowId: string) => {
     try {
       const response = await FlowService.getFlowOutcome(flowId);
@@ -62,8 +60,8 @@ const DialogBox: React.FC<DialogProps> = ({
       if (response.data.status === "COMPLETED") {
         goToSelectedPlanetPosition(selectedPlanet);
         setFlowStatusMessage(`Flow status: ${response.data.status}`);
-        setProbeMessages(JSON.parse(response.data.resultJson));
         setDialogFlowMessage(response.data.resultJson);
+        setProbeMessages(JSON.parse(response.data.resultJson).reverse());
       } else if (response.data.status === "RUNNING") {
         getFlowOutcome(flowId);
         setFlowStatusMessage(`Flow status: ${response.data.status}...`);
@@ -150,7 +148,6 @@ const DialogBox: React.FC<DialogProps> = ({
                   name="scales"
                   onChange={() => {
                     setPlanetaryOnly(true);
-                    console.log(planetaryOnly);
                   }}
                 />
                 <label>Planetary Only?</label>
@@ -247,7 +244,7 @@ const DialogBox: React.FC<DialogProps> = ({
                         className="vault-messages"
                         key={`itemName-${index}`}
                       >
-                        <h2>{message}</h2>
+                        <p>{message}</p>
                       </article>
                     ))
                   : ""}
