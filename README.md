@@ -48,7 +48,7 @@ And `ListVisitedProbeMessagesFlow` which takes no parameters, but returns a list
 {
   "rpcStartFlowRequest": {
     "clientId": "launchpad-2", 
-    flowName": "net.corda.solarsystem.flows.LaunchProbeFlow", 
+    "flowName": "net.corda.solarsystem.flows.LaunchProbeFlow", 
     "parameters": { 
       "parametersInJson": "{\"message\": \"Hello Mars\", \"target\": \"C=GB, L=FOURTH, O=MARS, OU=PLANET\", \"planetaryOnly\":\"true\"}" 
     } 
